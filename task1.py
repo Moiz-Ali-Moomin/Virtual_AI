@@ -2,10 +2,8 @@ import os
 import pyttsx3 as pys
 import speech_recognition as sr
 import webbrowser
-from selenium import webdriver
 import smtplib
 import wikipedia
-from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 
 print('''
 Commands Available:
@@ -23,8 +21,7 @@ Commands Available:
 
 # you can add more options
 
-while True:
-
+def yourCommands():
     r = sr.Recognizer()
 
     with sr.Microphone() as source:
@@ -36,7 +33,15 @@ while True:
             text = r.recognize_google(audio, language="en-in")
             print("You said  {}".format(text))
 
-            p = text.lower()
+        except:
+
+            pys.speak("Sorry Unable to recognize your voice")    
+    
+
+while True:
+
+        
+            p = yourCommands.lower()
             if("run " in p) or ("open " in p):
                 if("not " in p) or ("do not " in p) or ("dont " in p):
                     exit()
@@ -80,26 +85,21 @@ while True:
                         os.startfile(os.path.join(music_dir, songs[0]))
 
                     elif("send email" in p) or ("Send Email" in p) or ("Email" in p):
-                        server = smtplib.SMTP('smtp.gmail.com', 587)
-                        server.ehlo()
-                        server.starttls()
-                        server.login('youremail@gmail.com', 'your-password')
-                        server.sendmail('youremail@gmail.com', to, content)
-                        server.close()
-
-                    # elif("youtube" in p):
-					# 	assistant_speaks("Opening in youtube")
-					# 	indx = p.lower().split().index('youtube')
-					# 	p = p.split()[indx + 1:]
-					# 	driver.get(
-					# 		"http://www.youtube.com/results?search_query =" + '+'.join(p))
-
-                    # elif ("wikipedia" in p):
-					# 	assistant_speaks("Opening Wikipedia")
-					# 	indx = p.lower().split().index('wikipedia')
-					# 	query = p.split()[indx + 1:]
-					# 	driver.get(
-					# 		"https://en.wikipedia.org/wiki/" + '_'.join(p))
+                        try:
+                            server = smtplib.SMTP('smtp.gmail.com', 587)
+                            server.ehlo()
+                            server.starttls()
+                            server.login('youremail@gmail.com', 'your-password')
+                            pys.speak("What should I say?")
+                            content = yourCommands()
+                            to = "anyone@gmail.com"
+                            server.sendmail('youremail@gmail.com', to, content)
+                            pys.speak("Email has been sent!")
+                            server.close()
+                           
+                        except Exception as e:
+                            print(e)
+                            pys.speak("Unable to send email please try again")
 
                     elif ("wikipedia") in p:
                         pys.speak('Searching Wikipedia...')
@@ -109,19 +109,31 @@ while True:
                         print(results)
                         pys.speak(results)
 
-                    elif ("youtube search" in p):
-                        pys.speak("Opening youtube")
-                        indx = p.lower().split().index('youtube search')
-                        query = p.split()[indx + 1:]
+                    # elif ("youtube search" in p):
+                    #     pys.speak("Opening youtube")
+                    #     indx = p.lower().split().index('youtube search')
+                    #     query = p.split()[indx + 1:]
+                    #     webbrowser.open(
+                    #         "http://www.youtube.com/results?search_query =" + "+".join(query))
+
+                    elif ("open youtube" in p):
+                        pys.speak("Opening youtube what would you like to watch")
+                        query = yourCommands()
                         webbrowser.open(
-                            "http://www.youtube.com/results?search_query =" + "+".join(query))
+                            "http://www.youtube.com/results?search_query =" + "+".join(query))                            
+
+                    # elif ("google search" in p):
+                    #     pys.speak("Opening google")
+                    #     indx = p.lower().split().index('google search')
+                    #     query = p.split()[indx + 1:]
+                    #     webbrowser.open(
+                    #         "google.com/?q=" + "+".join(query))
 
                     elif ("google search" in p):
-                        pys.speak("Opening google")
-                        indx = p.lower().split().index('google search')
-                        query = p.split()[indx + 1:]
+                        pys.speak("Opening google what would you like to search")
+                        query = yourCommands()
                         webbrowser.open(
-                            "google.com/?q=" + "+".join(query))
+                            "google.com/?q=" + "+".join(query))                            
 
                     elif ("open stackoverflow" in query):
                         webbrowser.open("stackoverflow.com")
@@ -137,9 +149,7 @@ while True:
 
             else:
                 pys.speak("Unable to run your command please try again")
-        except:
 
-            pys.speak("Sorry Unable to recognize your voice")
 
 
 #
