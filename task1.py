@@ -24,7 +24,7 @@ while True:
 		audio = r.listen(source)
 
 		try:
-			text = r.recognize_google()
+			text = r.recognize_google(audio, language="en-in")
 			print("You said  {}".format(text))
 
 			print("Which application would you like to open:", end=' ')
