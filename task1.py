@@ -43,7 +43,7 @@ while True:
             psy.speak("Sorry Unable to recognize your voice please try again!")        
     
     p = text.lower()
-    p = "open youtube"
+  
     if("run " in p) or ("open " in p):
         if("exit" in p) or ("do not " in p) or ("don't " in p):
             exit()
@@ -116,14 +116,14 @@ while True:
                 psy.speak("Opening youtube what would you like to watch")
                 query = text
                 webbrowser.open(
-                    "http://www.youtube.com/results?search_query =" + "+".join(query))                            
+                    "http://www.youtube.com")                          
 
 
             elif ("google search" in p):
                 psy.speak("Opening google what would you like to search")
                 query = text
                 webbrowser.open(
-                    "google.com/?q=" + "+".join(query))                            
+                    "https://google.com)                            
 
 
     elif("close" in p) or ("stop" in p) or ("exit"in p):
